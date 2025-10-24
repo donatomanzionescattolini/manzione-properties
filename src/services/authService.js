@@ -11,9 +11,8 @@ export function getToken() {
 }
 
 
-
 export async function login(email, password) {
-    const res = await axios.post(`${API}/login`, { email, password });
+    const res = await axios.post(`${API}/login`, {email, password});
     if (res.data.token) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("role", res.data.role);

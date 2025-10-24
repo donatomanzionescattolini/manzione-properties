@@ -1,24 +1,22 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import userSlice from "../store/userSlice";
-import store from "../store/store";
-import {fetchProperties} from "../store/propertySlice";
+import {fetchTenants} from "../store/tenantSlice";
 
-import React from "react";
-export default function  Tenants() {
+export default function Tenants() {
     const dispatch = useDispatch();
-    const { list, loading } = useSelector((state) => state.property);
+    const {list, loading} = useSelector((state) => state.tenant);
 
     useEffect(() => {
-
+        dispatch(fetchTenants());
     }, [dispatch]);
 
     return (
         <div className="flex">
+            <Sidebar/>
             <div className="flex-1">
-                <Navbar />
+                <Navbar/>
                 <div className="p-6">
                     <h2 className="text-2xl font-semibold mb-4">Tenants</h2>
                     {loading ? (
@@ -28,18 +26,18 @@ export default function  Tenants() {
                             <thead>
                             <tr className="bg-gray-200">
                                 <th className="p-2">Name</th>
-                                <th className="p-2">Address</th>
+                                <th className="p-2">Email</th>
+                                <th className="p-2">Property</th>
                                 <th className="p-2">Rent</th>
-                                <th className="p-2">Due Date</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {list.map((p) => (
-                                <tr key={p.id} className="border-t">
-                                    <td className="p-2">{p.name}</td>
-                                    <td className="p-2">{p.address}</td>
-                                    <td className="p-2">${p.rentAmount}</td>
-                                    <td className="p-2">{p.rentDueDate}</td>
+                            {list?.map((t) => (
+                                <tr key={t.id} className="border-t">
+                                    <td className="p-2">{t.name}</td>
+                                    <td className="p-2">{t.email}</td>
+                                    <td className="p-2">{t.property?.name}</td>
+                                    <td className="p-2">${t.property?.rentAmount}</td>
                                 </tr>
                             ))}
                             </tbody>

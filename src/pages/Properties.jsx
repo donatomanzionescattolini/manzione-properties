@@ -1,15 +1,13 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchProperties } from "../store/propertySlice";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchProperties} from "../store/propertySlice";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-
-import React from "react";
 
 
 export default function Properties() {
     const dispatch = useDispatch();
-    const { list, loading } = useSelector((state) => state.property);
+    const {list, loading} = useSelector((state) => state.property);
 
     useEffect(() => {
         dispatch(fetchProperties());
@@ -17,9 +15,9 @@ export default function Properties() {
 
     return (
         <div className="flex">
-            <Sidebar />
+            <Sidebar/>
             <div className="flex-1">
-                <Navbar />
+                <Navbar/>
                 <div className="p-6">
                     <h2 className="text-2xl font-semibold mb-4">Properties</h2>
                     {loading ? (

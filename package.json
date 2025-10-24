@@ -1,60 +1,31 @@
 {
-
   "name": "latest",
-
   "version": "1.0.0",
-
   "private": true,
-
   "scripts": {
-
     "dev": "vite",
-
     "build": "vite build",
-
     "preview": "vite preview  --port 5173"
-
   },
-
   "dependencies": {
-
     "@reduxjs/toolkit": "latest",
-
     "axios": "latest",
-
     "mdb-react-ui-kit": "^9.0.0",
-
     "react": "latest",
-
     "react-dom": "latest",
-
     "react-hot-toast": "latest",
-
     "react-icons": "latest",
-
     "react-is": "latest",
-
     "react-redux": "latest",
-
     "react-router-dom": "latest",
-
     "recharts": "^3.3.0"
-
   },
-
   "devDependencies": {
-
     "@vitejs/plugin-react": "latest",
-
     "autoprefixer": "latest",
-
     "postcss": "latest",
-
     "tailwindcss": "latest",
-
     "vite": "latest"
-
   }
-
 }
 

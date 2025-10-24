@@ -1,15 +1,20 @@
 import Navbar from "../components/Navbar";
-import { createStripeSession } from "../services/stripeService";
+import {createStripeSession} from "../services/stripeService";
 
 import React from "react";
-export default function  TenantPortal() {
+
+export default function TenantPortal() {
     const handlePayRent = async () => {
-        await createStripeSession(1500); // Example rent amount
+        try {
+            await createStripeSession(1500); // Example rent amount
+        } catch (err) {
+            alert("Payment failed. Please try again.");
+        }
     };
 
     return (
         <div>
-            <Navbar />
+            <Navbar/>
             <div className="p-6">
                 <h2 className="text-2xl font-semibold mb-4">Tenant Portal</h2>
                 <div className="grid gap-6 md:grid-cols-2">

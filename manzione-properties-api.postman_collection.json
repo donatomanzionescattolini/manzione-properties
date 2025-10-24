@@ -11,7 +11,12 @@
           "name": "Login",
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"email\": \"admin@manzione.com\",\n  \"password\": \"admin123\"\n}"
@@ -23,7 +28,12 @@
           "name": "Register",
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"name\": \"New Tenant\",\n  \"email\": \"tenant@demo.com\",\n  \"password\": \"tenant123\",\n  \"role\": \"TENANT\"\n}"
@@ -47,7 +57,12 @@
           "name": "Add Property",
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"name\": \"Villa 1\",\n  \"address\": \"123 Ocean Drive\",\n  \"rentAmount\": 1500,\n  \"rentDueDate\": \"2025-11-01\",\n  \"lateFeeType\": \"fixed\",\n  \"lateFeeValue\": 50\n}"
@@ -64,7 +79,12 @@
           "name": "Create Stripe Session",
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{ \"amount\": 1500 }"
@@ -94,5 +114,10 @@
       ]
     }
   ],
-  "variable": [{ "key": "baseUrl", "value": "http://localhost:8080" }]
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
 }

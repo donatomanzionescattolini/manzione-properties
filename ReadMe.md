@@ -2,7 +2,8 @@
 
 **Full-Stack Property Management System** built with **Spring Boot + React + PostgreSQL + Stripe + Email Automation.**
 
-This application consolidates all rental operations — tenants, payments, maintenance, and reporting — into one secure, cloud-ready system.
+This application consolidates all rental operations — tenants, payments, maintenance, and reporting — into one secure,
+cloud-ready system.
 
 ---
 
@@ -40,6 +41,7 @@ This application consolidates all rental operations — tenants, payments, maint
 ## 🧩 Setup Instructions
 
 ### 1️⃣ Clone Repository
+
 ```bash
 git clone https://github.com/<yourusername>/manzione-properties.git
 cd manzione-properties

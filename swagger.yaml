@@ -1,0 +1,505 @@
+openapi: 3.0.3
+info:
+  title: Manzione Properties API
+  description: Full-Stack Property Management System API
+  version: 1.0.0
+  contact:
+    name: Manzione Properties
+    email: admin@manzioneprop.com
+
+servers:
+  - url: http://localhost:8080/api
+    description: Development server
+
+security:
+  - bearerAuth: [ ]
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: User login
+      security: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+              required:
+                - email
+                - password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  role:
+                    type: string
+                    enum: [ ADMIN, TENANT ]
+
+  /properties:
+    get:
+      tags:
+        - Properties
+      summary: Get all properties
+      responses:
+        '200':
+          description: List of properties
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Property'
+    post:
+      tags:
+        - Properties
+      summary: Create new property
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PropertyInput'
+      responses:
+        '201':
+          description: Property created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+
+  /properties/{id}:
+    get:
+      tags:
+        - Properties
+      summary: Get property by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Property details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+    put:
+      tags:
+        - Properties
+      summary: Update property
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PropertyInput'
+      responses:
+        '200':
+          description: Property updated
+    delete:
+      tags:
+        - Properties
+      summary: Delete property
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Property deleted
+
+  /tenants:
+    get:
+      tags:
+        - Tenants
+      summary: Get all tenants
+      responses:
+        '200':
+          description: List of tenants
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tenant'
+    post:
+      tags:
+        - Tenants
+      summary: Create new tenant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantInput'
+      responses:
+        '201':
+          description: Tenant created
+
+  /payments:
+    get:
+      tags:
+        - Payments
+      summary: Get all payments
+      responses:
+        '200':
+          description: List of payments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Payment'
+    post:
+      tags:
+        - Payments
+      summary: Record new payment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentInput'
+      responses:
+        '201':
+          description: Payment recorded
+
+  /maintenance:
+    get:
+      tags:
+        - Maintenance
+      summary: Get maintenance requests
+      responses:
+        '200':
+          description: List of maintenance requests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MaintenanceRequest'
+    post:
+      tags:
+        - Maintenance
+      summary: Submit maintenance request
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                priority:
+                  type: string
+                  enum: [ LOW, MEDIUM, HIGH, URGENT ]
+                photos:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '201':
+          description: Maintenance request submitted
+
+  /reports:
+    get:
+      tags:
+        - Reports
+      summary: Get monthly reports
+      responses:
+        '200':
+          description: List of reports
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Report'
+
+  /reports/pdf/{id}:
+    get:
+      tags:
+        - Reports
+      summary: Download report PDF
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: PDF file
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+
+  /email/send/{reportId}:
+    post:
+      tags:
+        - Email
+      summary: Send report via email
+      parameters:
+        - name: reportId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+            format: email
+      responses:
+        '200':
+          description: Email sent successfully
+
+  /stripe/create-session:
+    post:
+      tags:
+        - Payments
+      summary: Create Stripe payment session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: number
+                  description: Amount in cents
+              required:
+                - amount
+      responses:
+        '200':
+          description: Stripe session created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    description: Stripe checkout URL
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Property:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        address:
+          type: string
+        rentAmount:
+          type: number
+        rentDueDate:
+          type: integer
+          description: Day of month rent is due
+        ownerId:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+
+    PropertyInput:
+      type: object
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        rentAmount:
+          type: number
+        rentDueDate:
+          type: integer
+        ownerId:
+          type: integer
+      required:
+        - name
+        - address
+        - rentAmount
+
+    Tenant:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        property:
+          $ref: '#/components/schemas/Property'
+        leaseStart:
+          type: string
+          format: date
+        leaseEnd:
+          type: string
+          format: date
+
+    TenantInput:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        propertyId:
+          type: integer
+        leaseStart:
+          type: string
+          format: date
+        leaseEnd:
+          type: string
+          format: date
+      required:
+        - name
+        - email
+        - propertyId
+
+    Payment:
+      type: object
+      properties:
+        id:
+          type: integer
+        amount:
+          type: number
+        paymentDate:
+          type: string
+          format: date
+        method:
+          type: string
+          enum: [ CASH, CHECK, STRIPE, BANK_TRANSFER ]
+        tenantId:
+          type: integer
+        propertyId:
+          type: integer
+        status:
+          type: string
+          enum: [ PENDING, COMPLETED, FAILED ]
+
+    PaymentInput:
+      type: object
+      properties:
+        amount:
+          type: number
+        method:
+          type: string
+          enum: [ CASH, CHECK, STRIPE, BANK_TRANSFER ]
+        tenantId:
+          type: integer
+        propertyId:
+          type: integer
+      required:
+        - amount
+        - method
+        - tenantId
+        - propertyId
+
+    MaintenanceRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        description:
+          type: string
+        priority:
+          type: string
+          enum: [ LOW, MEDIUM, HIGH, URGENT ]
+        status:
+          type: string
+          enum: [ OPEN, IN_PROGRESS, COMPLETED, CANCELLED ]
+        tenantId:
+          type: integer
+        propertyId:
+          type: integer
+        photos:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+
+    Report:
+      type: object
+      properties:
+        id:
+          type: integer
+        propertyId:
+          type: integer
+        month:
+          type: integer
+        year:
+          type: integer
+        totalIncome:
+          type: number
+        totalExpense:
+          type: number
+        netIncome:
+          type: number
+        approved:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time

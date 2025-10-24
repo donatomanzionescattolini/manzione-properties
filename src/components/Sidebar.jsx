@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { getUserRole } from "../services/authService";
+import {Link} from "react-router-dom";
+import {getUserRole} from "../services/authService";
 
 export default function Sidebar() {
     const role = getUserRole();
@@ -7,12 +7,12 @@ export default function Sidebar() {
     if (role !== "ADMIN") return null;
 
     const links = [
-        { to: "/dashboard", label: "Dashboard" },
-        { to: "/properties", label: "Properties" },
-        { to: "/tenants", label: "Tenants" },
-        { to: "/payments", label: "Payments" },
-        { to: "/maintenance", label: "Maintenance" },
-        { to: "/reports", label: "Reports" },
+        {to: "/dashboard", label: "Dashboard"},
+        {to: "/properties", label: "Properties"},
+        {to: "/tenants", label: "Tenants"},
+        {to: "/payments", label: "Payments"},
+        {to: "/maintenance", label: "Maintenance"},
+        {to: "/reports", label: "Reports"},
     ];
 
     return (

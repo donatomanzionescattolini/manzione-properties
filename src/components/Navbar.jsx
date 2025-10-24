@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
-import { logout, getUserRole } from "../services/authService";
+import {useNavigate} from "react-router-dom";
+import {getUserRole, logout} from "../services/authService";
 
 export default function Navbar() {
     const navigate = useNavigate();
