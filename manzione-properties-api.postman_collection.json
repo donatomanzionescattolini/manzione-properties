@@ -1,0 +1,98 @@
+{
+  "info": {
+    "name": "Manzione Properties API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@manzione.com\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": "{{baseUrl}}/api/auth/login"
+          }
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Tenant\",\n  \"email\": \"tenant@demo.com\",\n  \"password\": \"tenant123\",\n  \"role\": \"TENANT\"\n}"
+            },
+            "url": "{{baseUrl}}/api/auth/register"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Properties",
+      "item": [
+        {
+          "name": "Get All Properties",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/properties"
+          }
+        },
+        {
+          "name": "Add Property",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Villa 1\",\n  \"address\": \"123 Ocean Drive\",\n  \"rentAmount\": 1500,\n  \"rentDueDate\": \"2025-11-01\",\n  \"lateFeeType\": \"fixed\",\n  \"lateFeeValue\": 50\n}"
+            },
+            "url": "{{baseUrl}}/api/properties"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "Create Stripe Session",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"amount\": 1500 }"
+            },
+            "url": "{{baseUrl}}/api/stripe/create-session"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "Generate PDF Report",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/reports/pdf/1"
+          }
+        },
+        {
+          "name": "Send Report via Email",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/email/send/1?email=owner@demo.com"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [{ "key": "baseUrl", "value": "http://localhost:8080" }]
+}
